@@ -1,0 +1,19 @@
+# History files
+.Rhistory
+
+# Figures
+*.pdf
+
+# Shapefiles
+*.zip
+*.cpg
+*.dbf
+*.prj
+*.shp
+*.shx
+*.sbn
+*.sbx
+
+
+*.xlsx
+
