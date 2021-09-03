@@ -21,3 +21,6 @@
 *.xml
 *.mxd
 
+*.pptx
+*.lock
+Figures/Thumbs.db
