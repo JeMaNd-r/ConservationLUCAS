@@ -3,6 +3,8 @@
 
 # Figures
 *.pdf
+*.svg
+*.png
 
 # Shapefiles
 *.zip
