@@ -8,7 +8,7 @@
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # set working directories
-work.wd <- "~/LUCAS"
+work.wd <- "I:/eie/==PERSONAL/RZ SoilBON/RZ LUCAS"
 data.wd <- "I:/eie/==PERSONAL/RZ SoilBON/RZ LUCAS"
 figu.wd <- "H:/Figures"
 setwd(work.wd); getwd()
@@ -649,41 +649,52 @@ setwd(data.wd)
 d.table.summary <- read.csv("Effect_size_d_summary.csv")
 head(d.table.summary)
 
+str(d.table.summary)
+# sort labels
+d.table.summary$label <- factor(d.table.summary$name, 
+                                c("Basal_respiration", "Cmic", "Acid.phosphatase",
+                                  "beta.glucosidase", "Cellulase", "N.actylglucosaminidase",
+                                  "Xylosidase", "MWD", "WSA"))
+name.labels <- c("Basal respiration", "Microbial biomass", "Acid-Phosphatase",
+  "Beta-Glucosidase", "Cellulase", "N-Actylglucosaminidase",
+  "Xylosidase", "Mean weight diameter", "Water stable aggregates")
+
 aplot <- ggplot(data=d.table.summary[d.table.summary$lc=="Cropland",], 
-                aes(y=mean.D, x=name, ymin=CI.lower,ymax=CI.upper))+
+                aes(y=mean.D, x=label, ymin=CI.lower,ymax=CI.upper))+
   geom_pointrange() +
   geom_hline(yintercept=0, linetype="dashed")+
   ggtitle("Cropland") +
   theme_bw() + # use a white background
   theme(legend.position = "none", axis.title.y =element_blank(),
-        axis.title.x =element_blank(),
+        axis.title.x =element_blank(),plot.margin = unit(c(1, 1, 1, 2), "cm"),
         axis.text.y = element_text(size=20),  axis.text.x = element_blank())+
   scale_y_continuous(limits = c(-1,1))
 
 gplot <- ggplot(data=d.table.summary[d.table.summary$lc=="Grassland",], 
-                aes(y=mean.D, x=name, ymin=CI.lower,ymax=CI.upper))+
+                aes(y=mean.D, x=label, ymin=CI.lower,ymax=CI.upper))+
   geom_pointrange() +
   ggtitle("Grassland") +
   geom_hline(yintercept=0, linetype="dashed")+
   theme_bw() + # use a white background
   theme(legend.position = "none", axis.title.y =element_blank(),
-        axis.title.x =element_blank(),
+        axis.title.x =element_blank(),plot.margin = unit(c(1, 1, 1, 2), "cm"),
         axis.text.y = element_text(size=20),  axis.text.x = element_blank())+
   scale_y_continuous(limits = c(-1,1))
 
 fplot <- ggplot(data=d.table.summary[d.table.summary$lc=="Woodland",], 
-                aes(y=mean.D, x=name, ymin=CI.lower,ymax=CI.upper))+
+                aes(y=mean.D, x=label, ymin=CI.lower,ymax=CI.upper))+
   geom_pointrange() +
   ggtitle("Woodland") +
   geom_hline(yintercept=0, linetype="dashed")+
+  scale_x_discrete(labels= name.labels) +
   theme_bw() + # use a white background
   theme(legend.position = "none", axis.title.y =element_blank(),
-        axis.title.x =element_blank(),
+        axis.title.x =element_blank(), plot.margin = unit(c(1, 1, 1, 2), "cm"),
         axis.text.y = element_text(size=20),  axis.text.x = element_text(size=20, angle=45, hjust=1))+
   scale_y_continuous(limits = c(-1,1))
 
 library(ggpubr)
-#setwd(figu.wd); pdf(file="Dvals_pointrange_1000trails.pdf", height=15)
+setwd(figu.wd); pdf(file="Dvals_pointrange_1000trails.pdf", width=5, height=11)
 ggarrange(aplot, gplot, fplot, ncol = 1, nrow = 3, align = "none", heights=c(1,1,1.7))
 dev.off()
 
