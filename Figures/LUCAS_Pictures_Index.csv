@@ -1,5 +1,8 @@
-PointID,Direction,LandCover,SurveyDate,Country,LandUseType,Accessed
-31041984,East,B13 - Barley,18/06/2015,Spain,cropland,3/9/2021
-51704234,South,E10 - Grassland with sparse tree/shrub cover,5/6/2015,Finland,grassland,3/9/2021
-55862708,West,C10 - Broadleaved woodland,20/05/2015,Romania,woodland_old,3/9/2021
-46862680,North,E10 - Grassland with sparse tree/shrub cover,8/7/2015,Austria,woodland,3/9/2021
+PointID,Direction,LandCover,SurveyDate,Country,LandUseType,Accessed,Status
+31041984,East,B13 - Barley,18/06/2015,Spain,cropland,3/9/2021,none
+51704234,South,E10 - Grassland with sparse tree/shrub cover,5/6/2015,Finland,grassland,3/9/2021,none
+55862708,West,C10 - Broadleaved woodland,20/05/2015,Romania,woodland_old,3/9/2021,none
+46862680,North,E10 - Grassland with sparse tree/shrub cover,8/7/2015,Austria,woodland,3/9/2021,none
+50604196,East,,2018,Finland,cropland,7/9/2021,taken
+29922396,West,,2018,Espania,woodland,7/9/2021,taken
+51704234,South,,2018,Finland,grassland,7/9/2021,taken
