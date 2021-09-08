@@ -73,7 +73,7 @@ Run the script `0_define_PA_nonPA.R`.
 
 #### Reproduction instructions
 
-To reproduce the analysis right from the beginning, you have to first download the German management plan documents. They can be found on the websites of the German Federal States (see `State_doc_summary.csv`). If you follow the same folder structure, you can continue with the process described above.
+To reproduce the analysis right from the beginning, you can to define the protected sites (e.g., sites within nature conservation areas) by your own (see [Instructions](#arcgis)).
 
 # References
 
