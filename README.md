@@ -78,7 +78,9 @@ To reproduce the analysis right from the beginning, you can to define the protec
 # References
 
 Associated publication:
-[1] Zeiss et al. (2021): ...
+
+[1] Zeiss et al. (2022): Challenges of and opportunities for protecting European soil biodiversity. Conservation Biology. https://doi.org/10.1111/cobi.13930
 
 Related repository:
 JeMaNd_r/ManagementPlans
+FigShare DOI: 10.6084/m9.figshare.16698193
