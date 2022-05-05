@@ -56,6 +56,10 @@ The output should be saved according to the R script. The expected run time for 
 
 The analysis includes the following steps, which are also descriped in the script `0_define_PA_nonPA.R`: 
 
+#### Dataset
+
+If you want to run the analysis right from the beginning, you need to have the data file called `Full_LUCAS2018-iDiv_dataset_02072021.csv`. This raw dataset from the Land use/cover area survey (LUCAS) soil project 2018 is available on [request](romy.zeiss@idiv.de). 
+
 #### ArcGIS
 
 Take the dataset `Full_LUCAS2018-iDiv_dataset_02072021.csv` and define a new column "PA" that has "0" as values. This column will have 0 for non-protected, and 1 for protected sites. To fill the column, you need to download the shapefile of the Natura 2000 nature conservation areas [here](https://www.eea.europa.eu/data-and-maps/data/natura-12/natura-2000-spatial-data/natura-2000-shapefile-1). If you added this shapefile to your ArcGIS project, use the `Select by location` function in ArcGIS to filter for protected areas. Change the value of the "PA" column of the selected sites to "1". Finally, save the information about the points and their classification (i.e., ID and PA column) to `LUCAS_points_withPA.txt`.
