@@ -8,9 +8,9 @@
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # set working directories
-work.wd <- "I:/eie/==PERSONAL/RZ SoilBON/RZ LUCAS"
-data.wd <- "I:/eie/==PERSONAL/RZ SoilBON/RZ LUCAS"
-figu.wd <- "H:/Figures"
+work.wd <- "I:/eie/==PERSONAL/RZ_SoilBON/ConservationLUCAS"
+data.wd <- "I:/eie/==PERSONAL/RZ_SoilBON/ConservationLUCAS/Data"
+figu.wd <- "I:/eie/==PERSONAL/RZ_SoilBON/ConservationLUCAS/Figures"
 setwd(work.wd); getwd()
 
 # load packages
