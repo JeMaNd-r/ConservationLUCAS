@@ -88,4 +88,3 @@ Associated publication:
 Related repository:
 
 * JeMaNd_r/ManagementPlans
-* FigShare DOI: 10.6084/m9.figshare.16698193
