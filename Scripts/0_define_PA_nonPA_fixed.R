@@ -314,17 +314,14 @@ colnames(d.table) = c("lc", fns)
 d.table$lc <- rep(lc.names, each=1000)
 d.table$run <- rep(1:1000, 4)
 #rownames(d.table) = c("Cropland","Grassland", "Woodland","Other","total")
-d.table.upp <- d.table.low <- d.table
 
-for(n in fns){
-  for(i in 1:1000){try({
+for(i in 1:1000){try({
     d.table[d.table$lc=="Cropland" & d.table$run==i,n] = effect.size[[i]][1, n]
     d.table[d.table$lc=="Grassland" & d.table$run==i,n] = effect.size[[i]][3, n]
     d.table[d.table$lc=="Woodland" & d.table$run==i,n] = effect.size[[i]][2, n]
     d.table[d.table$lc=="Other" & d.table$run==i,n] = effect.size[[i]][4, n]
     #... total missing
-  })}
-}
+})}
 head(d.table)
 save(d.table, file="Effect_size_d_table.RData")
 #write.csv(d.table, file="Effect_size_d_table.csv", row.names = F)
