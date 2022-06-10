@@ -93,13 +93,10 @@ pa <- lucas[lucas$PA==1,c("LUCAS_ID", "LC_5", "PA", mahal.vars, fns)]
 
 # randomization
 p.list.total <- vector("list", length = 1000)
-effect.size <- vector("list", length=1000); effect.size.t <- vector("list", length=1000)
-effect.size.g <- vector("list", length=1000)
-effect.size.low <- vector("list", length=1000); effect.size.upp <- vector("list", length=1000)
+effect.size.d <- vector("list", length=1000)
 pa.pairs <- data.frame(LUCAS_ID=NULL, nonPA=NULL, mahal.min=NULL, LC=NULL, run=NULL)
 missing.pa <- data.frame(run=NA, pa.site=NA)[0,]
 times <- 0; times.with.error <- 0; set.seed(1) 
-#for(times in 1:10){ try({
 repeat {
   times <- times+1; if(times > 1000) {break} #stop loop if reached 1000 trails
   times.with.error <- times.with.error + 1
@@ -118,10 +115,6 @@ repeat {
       data_nonPA <- data_nonPA[complete.cases(data_nonPA[,mahal.vars]),c("LUCAS_ID", mahal.vars)]
       
       sigma <- cov(data_nonPA[,mahal.vars]) # covariance/correlation between variables
-      #data_nonPA[,as.character(data_PA$LUCAS_ID)] <- 0
-      
-      # define function to extract second smallest value
-      #min2 <- function(x,n) {value = sort(x, FALSE); print(value[n])}
       
       # random order of PA sites
       data_PA <- data_PA[order(sample(data_PA$LUCAS_ID)),]
@@ -191,9 +184,7 @@ repeat {
   
   # Perform t tests
   p.list <- list()
-  effect.size[[times]] <- data.frame(); effect.size.t[[times]] <- data.frame()
-  effect.size.g[[times]] <- data.frame()
-  effect.size.low[[times]] <- data.frame(); effect.size.upp[[times]] <- data.frame()
+  effect.size.d[[times]] <- data.frame()
   for(l in lc.names){
     p.list[[l]] <- vector("list", length(fns))
     names(p.list[[l]]) <- fns
@@ -203,35 +194,16 @@ repeat {
     temp.nonPA <- lucas.paired[lucas.paired$LC_5==l & lucas.paired$PA==0,]
     temp.nonPA <- temp.nonPA[order(match(temp.nonPA$LUCAS_ID, temp.PA$nonPA)), ]
     
+    temp.cohens <- psych::cohen.d(rbind(temp.PA, temp.nonPA)[,c("PA",fns)], "PA")
+    effect.size.d[[times]] <- cbind(lc=l, data.frame(temp.cohens$cohen.d))
+    
     for(no.fns in 1:(length(fns))){
       # unpaired t test
       p.list[[l]][[no.fns]] <- t.test(temp.PA[,fns[no.fns]],temp.nonPA[,fns[no.fns]])
-      temp.t.value <- as.numeric(t.test(temp.PA[,fns[no.fns]],temp.nonPA[,fns[no.fns]])["statistic"])
-      
-      # calculate effect size per run as Cohen's d, based on https://www.statology.org/effect-size/
-      effect.size[[times]][l,no.fns] <- (mean(temp.PA[,fns[no.fns]]) - mean(temp.nonPA[,fns[no.fns]]))/ mean(c(sd(temp.PA[,fns[no.fns]]), sd(temp.nonPA[,fns[no.fns]])))
-      
-      # and as Hedges gs based on Cohen's ds = t value * sqrt( (1/sample size 1) + (1/sample size 2)))
-      temp.n1 <- length(temp.PA[,fns[no.fns]]); temp.n2 <- length(temp.nonPA[,fns[no.fns]])
-      temp.cohens <- temp.t.value * sqrt( (1/temp.n1) + (1/temp.n2) )
-      #effect.size.t[[times]][l,no.fns] <- temp.cohens
-      
-      effect.size.g[[times]][l,no.fns] <- temp.cohens * (1 - (3/(4*(temp.n1 + temp.n2)-9)))
-      
-      # confidence intervals
-      effect.size.low[[times]][l,no.fns] <- cohen.d.ci(temp.cohens,n=temp.n1+temp.n2,
-                                                         n1=temp.n1, n2=temp.n2)[1]
-      effect.size.upp[[times]][l,no.fns] <- cohen.d.ci(temp.cohens,n=temp.n1+temp.n2,
-                                                       n1=temp.n1, n2=temp.n2)[3]
     }
     print(summary(temp.PA[,"nonPA"] == temp.nonPA[temp.nonPA$LUCAS_ID %in% temp.PA[,"nonPA"],"LUCAS_ID"])) # make sure that the sites are pairing properly
     
   }
-  colnames(effect.size[[times]]) <- fns
-  #colnames(effect.size.t[[times]]) <- fns
-  colnames(effect.size.g[[times]]) <- fns
-  colnames(effect.size.low[[times]]) <- fns
-  colnames(effect.size.upp[[times]]) <- fns
   
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
   ## Make table of all p values for all functions and LC types
@@ -255,6 +227,8 @@ repeat {
   if(is(check.error,"try-error")) {times <- times-1} else {print(check.error)}
 
 } #end of randomization
+
+save(effect.size.d,  file="d_1000_trails.RData")
 
 # show total count of unpaired (and removed) PAs and compare with number of paired sites
 table(missing.pa[,2])  #should be 0
