@@ -392,8 +392,9 @@ d.table.max <- aggregate(.~lc, d.table.upp, mean)
 #d.table.min <- aggregate(.~lc, d.table, function(x){quantile(x,0.25)})
 #d.table.max <- aggregate(.~lc, d.table, function(x){quantile(x,0.75)})
 d.table.mean
-#write.csv(d.table.mean, file="Effect_size_d_mean.csv", row.names = F)
-#write.csv(d.table.min, file="Effect_size_d_CI_low_mean.csv", row.names = F)
+write.csv(d.table.mean, file="Effect_size_d_mean.csv", row.names = F)
+write.csv(d.table.min, file="Effect_size_d_CI_low_mean.csv", row.names = F)
+write.csv(d.table.max, file="Effect_size_d_CI_upp_mean.csv", row.names = F)
 #d.table.mean <- read.csv("Effect_size_d_mean.csv")
 
 d.table.mean.long <- pivot_longer(d.table.mean, cols=2:11)
@@ -412,6 +413,12 @@ d.table.summary <- d.table.summary[d.table.summary$name!="run",]
 head(d.table.summary)
 
 write.csv(d.table.summary, file="Effect_size_d_summary.csv", row.names = F)
+
+# merge with d values
+statistics <- merge(p.vals.summary, d.table.summary, 
+                    by.x=c("variable", "lc"), by.y=c("name", "lc"))
+head(statistics)
+write.csv(statistics, file="1000_trails_statistics_p+d.csv", row.names = F)
 
 # # 3. plot the effect size between PA and NonPA
 # #setwd(figu.wd); pdf("LUCAS_Effect_size_CohensD.pdf")
@@ -508,12 +515,6 @@ head(p.vals.summary)
 
 write.csv(p.vals.summary, file="p_1000_trails_summary.csv", row.names = F)
 
-# merge with d values
-statistics <- merge(p.vals.summary, d.table.summary, 
-                    by.x=c("variable", "lc"), by.y=c("name", "lc"))
-head(statistics)
-write.csv(statistics, file="1000_trails_statistics_p+d.csv", row.names = F)
-
 # ggplot(data=pvals.all2, aes(x=value, fill=variable))+
 #   geom_histogram()+
 #   geom_vline(xintercept=0.05, linetype="dashed")
@@ -590,7 +591,7 @@ dvals.fore <- melt(d.table[d.table$lc=="Woodland",], id.vars = c("lc", "run"))
 dvals.othe <- melt(d.table[d.table$lc=="Other",], id.vars = c("lc", "run"))
 
 ## violin plot per land use type
-#setwd(figu.wd); pdf(file="Gvals_violin_1000trails_in1.pdf", height=15)
+setwd(figu.wd); pdf(file="Dvals_violin_1000trails_in1.pdf", height=15)
 ggplot(data=dvals.all[dvals.all$lc!="Other",], aes(x=value, y=variable, fill=lc))+
   geom_violin()+
   geom_vline(xintercept=0.2, linetype="dashed")+
@@ -660,7 +661,7 @@ oplot<- ggplot(data=dvals.othe, aes(x=value, y=variable))+
   scale_x_continuous(limits = c(-1.5,0.8))
 
 library(ggpubr)
-#setwd(figu.wd); pdf(file="Dvals_violin_1000trails.pdf", height=15)
+setwd(figu.wd); pdf(file="Dvals_violin_1000trails.pdf", height=15)
 ggarrange(aplot, gplot, fplot, ncol = 1, nrow = 3, align = "none")
 dev.off()
 
@@ -781,7 +782,7 @@ gplot <- ggplot(gmelt,aes(variable,value)) +
         legend.position = "none", axis.text.y = element_text(size=15)) +
   labs(x=NULL,y="Grassland")
 
-#setwd(figu.wd); pdf(file="LUCAS_Boxplot_paNonpa.pdf", width=12)
+setwd(figu.wd); pdf(file="LUCAS_Boxplot_paNonpa.pdf", width=12)
 ggarrange(fplot, gplot, aplot, ncol = 1, nrow = 3, align = "v")
 dev.off()
 
@@ -791,10 +792,10 @@ pa.pairs <- merge(pa.pairs, lucas[,c("LUCAS_ID", "Country")])
 
 # get sample sizes
 no.sample <- pa.pairs %>% count(Country, LC)
-#write.csv(no.sample, file="LUCAS_Boxplot_mahal.distance_samplesize.csv", row.names=F)
+write.csv(no.sample, file="LUCAS_Boxplot_mahal.distance_samplesize.csv", row.names=F)
 #no.sample <- as.character(no.sample$n)
 
-#setwd(figu.wd); pdf(file="LUCAS_Boxplot_mahal.distance_wide.pdf", width=15) 
+setwd(figu.wd); pdf(file="LUCAS_Boxplot_mahal.distance_wide.pdf", width=15) 
 ggplot(pa.pairs[pa.pairs$LC!="Other",],aes(Country,mahal.min, fill=LC)) +
   geom_boxplot()+#,fatten = NULL) + # activate to remove the median lines
   theme_classic() +
