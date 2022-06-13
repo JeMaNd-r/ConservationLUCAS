@@ -34,7 +34,7 @@ Attached R packages:
 
 ## 3. Setup
 
-If R and ArcGIS are already installed, you only have to download this repository.
+If R and ArcGIS are already installed, you only have to download this repository. To run the same analysis, you need to request the dataset `Full_LUCAS2018-iDiv_dataset_02072021.csv` from the authors. However, you may also adapt the code to your own dataset.
 
 ### 3.1 Installation guide
 
@@ -78,7 +78,7 @@ To reproduce the analysis right from the beginning, you can to define the protec
 # References
 
 Associated publication:
-[1] Zeiss et al. (2021): ...
+[1] Zeiss et al. (2021): Challenges of and opportunities for protecting European soil biodiversity. Conservation Biology. https://doi.org/10.1111/cobi.13930
 
 Related repository:
 JeMaNd_r/ManagementPlans
